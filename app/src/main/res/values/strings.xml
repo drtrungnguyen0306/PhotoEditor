@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_app_name">Photo Editor</string>
+    <string name="title_request_permission">Request Permission</string>
+    <string name="msg_request_permission">Do you want to open permission?</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_merge">Merge</string>
+    <string name="action_video">Video</string>
+</resources>
