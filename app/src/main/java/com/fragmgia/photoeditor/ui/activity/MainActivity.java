@@ -43,6 +43,9 @@ public class MainActivity extends Activity {
             case R.id.card_view_merge:
                 break;
             case R.id.card_view_video:
+                break;
+            default:
+                break;
         }
         if (intent != null) startActivity(intent);
     }
