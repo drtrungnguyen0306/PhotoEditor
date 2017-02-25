@@ -17,9 +17,11 @@ import android.view.MenuItem;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
+import com.fragmgia.photoeditor.ui.activity.function.FunctionActivity;
 import com.fragmgia.photoeditor.ui.adapter.ImageAdapter;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +67,12 @@ public class ImagesActivity extends AppCompatActivity implements ImagesContract.
     @Override
     public void selectSingleImage(ImageInfo imageInfo) {
         if (imageInfo.getName().equals(ConstantManager.CAPTURE_IMAGE)) captureImage();
+        else {
+            Intent intent = new Intent(ImagesActivity.this, FunctionActivity.class);
+            intent.putExtra(ConstantManager.EXTRA_TYPE_OF_IMAGE, ConstantManager.EXTRA_IMAGE_INFO);
+            intent.putExtra(ConstantManager.EXTRA_IMAGE_INFO, imageInfo);
+            startActivity(intent);
+        }
     }
 
     @Override
