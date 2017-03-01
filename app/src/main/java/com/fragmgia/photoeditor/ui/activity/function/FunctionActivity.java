@@ -1,20 +1,21 @@
 package com.fragmgia.photoeditor.ui.activity.function;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
+import com.fragmgia.photoeditor.ui.activity.adjust.AdjustActivity;
 import com.fragmgia.photoeditor.ui.adapter.FunctionAdapter;
+import com.fragmgia.photoeditor.ui.base.BaseActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by trungnguyens93gmail.com on 2/25/17.
  */
-public class FunctionActivity extends AppCompatActivity implements FunctionContract.View {
+public class FunctionActivity extends BaseActivity implements FunctionContract.View {
     private FunctionContract.Presenter mPresenter;
     public static Bitmap sMainBitmap;
     @BindView(R.id.image_edit)
@@ -46,6 +47,10 @@ public class FunctionActivity extends AppCompatActivity implements FunctionContr
     protected void onResume() {
         super.onResume();
         mPresenter.loadImage();
+    }
+
+    @Override
+    public void start() {
     }
 
     @Override
@@ -79,24 +84,21 @@ public class FunctionActivity extends AppCompatActivity implements FunctionContr
     }
 
     @Override
-    public void start() {
-        setUpActionBar();
-    }
-
-    @Override
     public void selectFunction(Function function) {
-    }
-
-    public void setUpActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Intent intent = null;
+        switch (function.getName()) {
+            case ConstantManager.Functions.EFFECT_FUNTION:
+                break;
+            case ConstantManager.Functions.CROP_FUNCTION:
+                break;
+            case ConstantManager.Functions.COLOR_FUNCTION:
+                break;
+            case ConstantManager.Functions.ADJUST_FUNCTION:
+                intent = new Intent(FunctionActivity.this, AdjustActivity.class);
+                break;
+            default:
+                break;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) finish();
-        return super.onOptionsItemSelected(item);
+        if (intent != null) startActivity(intent);
     }
 }

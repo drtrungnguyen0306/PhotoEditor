@@ -8,33 +8,32 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.ui.activity.function.FunctionActivity;
 import com.fragmgia.photoeditor.ui.adapter.ImageAdapter;
+import com.fragmgia.photoeditor.ui.base.BaseActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ImagesActivity extends AppCompatActivity implements ImagesContract.View {
+public class ImagesActivity extends BaseActivity implements ImagesContract.View {
     @BindView(R.id.recycle_view_images)
     RecyclerView mRecyclerView;
     private ImagesPresenter mPresenter;
     private ImageAdapter mImageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
@@ -50,7 +49,6 @@ public class ImagesActivity extends AppCompatActivity implements ImagesContract.
 
     @Override
     public void start() {
-        setUpActionBar();
         mImageAdapter = new ImageAdapter(this, this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(ImagesActivity.this,
@@ -123,18 +121,5 @@ public class ImagesActivity extends AppCompatActivity implements ImagesContract.
             Bitmap bitmap = (Bitmap) extras.get(ConstantManager.EXTRA_BITMAP_CAPTURE);
 
         }
-    }
-
-    public void setUpActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) finish();
-        return super.onOptionsItemSelected(item);
     }
 }
