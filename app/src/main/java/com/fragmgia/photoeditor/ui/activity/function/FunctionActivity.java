@@ -14,6 +14,7 @@ import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.ui.activity.adjust.AdjustActivity;
+import com.fragmgia.photoeditor.ui.activity.effect.EffectActivity;
 import com.fragmgia.photoeditor.ui.adapter.FunctionAdapter;
 import com.fragmgia.photoeditor.ui.base.BaseActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
@@ -88,6 +89,7 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
         Intent intent = null;
         switch (function.getName()) {
             case ConstantManager.Functions.EFFECT_FUNTION:
+                intent = new Intent(FunctionActivity.this, EffectActivity.class);
                 break;
             case ConstantManager.Functions.CROP_FUNCTION:
                 break;
