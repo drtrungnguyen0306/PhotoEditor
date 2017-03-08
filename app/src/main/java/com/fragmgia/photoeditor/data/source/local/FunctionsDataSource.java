@@ -19,6 +19,20 @@ public class FunctionsDataSource {
             new Function(R.drawable.ic_adjust, ConstantManager.Functions.ADJUST_FUNCTION));
     }
 
+    public static List<Function> getEffectsFunction() {
+        return Arrays.asList(
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_NONE),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_CROSSPROCESS),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_DOCUMENTARY),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_FILLLIGHT),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_GRAYSCALE),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_LOMOISH),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_SEPIA),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_SHARPEN),
+            new Function(R.drawable.ic_effect, ConstantManager.Effects.EFFECT_TEMPERATURE)
+        );
+    }
+
     public static List<Function> getAdjustFunctions() {
         return Arrays.asList(
             new Function(R.drawable.ic_contrast, "Contrast"),
