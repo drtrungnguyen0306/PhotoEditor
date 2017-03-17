@@ -11,8 +11,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
@@ -26,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ImagesActivity extends BaseActivity implements ImagesContract.View {
+public class ImagesActivity extends AppCompatActivity implements ImagesContract.View {
     @BindView(R.id.recycle_view_images)
     RecyclerView mRecyclerView;
     private ImagesPresenter mPresenter;
@@ -48,7 +50,21 @@ public class ImagesActivity extends BaseActivity implements ImagesContract.View 
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setUpActionBar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
     public void start() {
+        setUpActionBar();
         mImageAdapter = new ImageAdapter(this, this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(ImagesActivity.this,
@@ -119,7 +135,6 @@ public class ImagesActivity extends BaseActivity implements ImagesContract.View 
         if (requestCode == ConstantManager.REQUEST_TAKE_IMAGE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get(ConstantManager.EXTRA_BITMAP_CAPTURE);
-
         }
     }
 }

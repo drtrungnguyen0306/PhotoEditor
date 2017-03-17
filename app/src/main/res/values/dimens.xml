@@ -7,9 +7,11 @@
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_15">15dp</dimen>
     <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_300">300dp</dimen>
 </resources>

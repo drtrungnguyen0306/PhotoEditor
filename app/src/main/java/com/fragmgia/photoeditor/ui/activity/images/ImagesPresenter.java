@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.fragmgia.photoeditor.data.model.ImageInfo;
-import com.fragmgia.photoeditor.data.source.local.ImagesDataSource;
+import com.fragmgia.photoeditor.data.source.local.DataSourceInSDCard;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class ImagesPresenter implements ImagesContract.Presenter {
         List<ImageInfo> imageInfos = new ArrayList<>();
         imageInfos.add(info);
         // Add all images in SDCard
-        imageInfos.addAll(ImagesDataSource.getImagesSDCard((ImagesActivity) mView));
+        imageInfos.addAll(DataSourceInSDCard.getImages((ImagesActivity) mView));
         mView.showImages(imageInfos);
     }
 

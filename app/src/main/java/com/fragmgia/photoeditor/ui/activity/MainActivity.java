@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fragmgia.photoeditor.R;
+import com.fragmgia.photoeditor.ui.activity.combine.CombineActivity;
 import com.fragmgia.photoeditor.ui.activity.images.ImagesActivity;
 
 import butterknife.BindView;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
             case R.id.card_view_merge:
                 break;
             case R.id.card_view_video:
+                intent = new Intent(this, CombineActivity.class);
                 break;
             default:
                 break;
