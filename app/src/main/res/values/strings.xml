@@ -3,8 +3,14 @@
     <string name="title_request_permission">Request Permission</string>
     <string name="title_contrast">Contrast</string>
     <string name="title_hue">HUE</string>
+    <string name="title_make_video">Making a Video</string>
+    <string name="title_combine">Combine</string>
+    <string name="title_done">Done</string>
     <string name="msg_request_permission">Do you want to open permission?</string>
     <string name="msg_discard_changes">Discard Changes?</string>
+    <string name="msg_wait">Please wait&#8230;</string>
+    <string name="msg_success">Success!</string>
+    <string name="msg_error_combining">Error Combining</string>
     <string name="action_edit">Edit</string>
     <string name="action_merge">Merge</string>
     <string name="action_video">Video</string>

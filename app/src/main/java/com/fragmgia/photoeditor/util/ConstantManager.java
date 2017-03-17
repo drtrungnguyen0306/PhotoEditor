@@ -14,6 +14,8 @@ public class ConstantManager {
     public static final String EXTRA_TYPE_OF_IMAGE = "EXTRA_TYPE_OF_IMAGE";
     public static final String EXTRA_IMAGE_INFO = "EXTRA_IMAGE_INFO";
     public static final String EXTRA_BITMAP = "EXTRA_BITMAP";
+    public static final String EXTRA_LIST_IMAGE_INFO = "EXTRA_LIST_IMAGE_INFO";
+    public static final String EXTRA_AUDIO = "EXTRA_AUDIO";
 
     public class Functions {
         public static final String EFFECT_FUNTION = "Effect";

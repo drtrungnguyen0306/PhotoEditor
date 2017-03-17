@@ -39,6 +39,12 @@
 
         <activity android:name=".ui.activity.effect.EffectActivity"/>
 
+        <activity android:name=".ui.activity.combine.CombineActivity"/>
+
+        <activity android:name=".ui.activity.multiphoto.MultiImageActivity"/>
+
+        <activity android:name=".ui.activity.audio.AudioActivity"/>
+
     </application>
 
 </manifest>

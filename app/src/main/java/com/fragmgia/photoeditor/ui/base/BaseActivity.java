@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.fragmgia.photoeditor.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity {
     public static boolean sIsChanged;
@@ -15,8 +21,28 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.partial_toolbar);
         setUpActionBar();
         sIsChanged = false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                checkIsChanged();
+                break;
+            case R.id.menu_item_done:
+                accept();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setUpActionBar() {
@@ -26,17 +52,12 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            checkIsChanged();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void checkIsChanged() {
         if (sIsChanged) showDiscardMessage();
         else finish();
+    }
+
+    public void accept() {
     }
 
     public void reset() {
