@@ -37,6 +37,7 @@ public class ConstantManager {
     }
 
     public class Adjusts {
+        public static final String BRIGHTNESS_FUNCTION = "Brightness";
         public static final String CONTRAST_FUNCTION = "Contrast";
         public static final String HUE_FUNCTION = "HUE";
     }

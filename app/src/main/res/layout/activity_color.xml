@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_black_white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.fragmgia.photoeditor.ui.widget.ColorImageView
+            android:id="@+id/image_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"/>
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="@dimen/dp_10">
+
+        <TableRow
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5">
+
+            <TextView
+                android:paddingTop="@dimen/dp_5"
+                android:text="@string/title_red_color"
+                android:textColor="@color/color_white"/>
+
+            <SeekBar
+                android:id="@+id/seek_bar_red_color"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_value_of_red_color"
+                android:layout_width="@dimen/dp_25"
+                android:paddingTop="@dimen/dp_5"/>
+
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="@dimen/dp_5">
+
+            <TextView
+                android:paddingTop="@dimen/dp_5"
+                android:text="@string/title_green_color"
+                android:textColor="@color/color_white"/>
+
+            <SeekBar
+                android:id="@+id/seek_bar_green_color"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_value_of_green_color"
+                android:layout_width="@dimen/dp_25"
+                android:paddingTop="@dimen/dp_5"/>
+
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="@dimen/dp_5">
+
+            <TextView
+                android:paddingTop="@dimen/dp_5"
+                android:text="@string/title_blue_color"
+                android:textColor="@color/color_white"/>
+
+            <SeekBar
+                android:id="@+id/seek_bar_blue_color"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_value_of_blue_color"
+                android:layout_width="@dimen/dp_25"
+                android:paddingTop="@dimen/dp_5"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

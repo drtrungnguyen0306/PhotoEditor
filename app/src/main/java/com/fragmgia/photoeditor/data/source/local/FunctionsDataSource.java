@@ -35,6 +35,7 @@ public class FunctionsDataSource {
 
     public static List<Function> getAdjustFunctions() {
         return Arrays.asList(
+            new Function(R.drawable.ic_brightness, "Brightness"),
             new Function(R.drawable.ic_contrast, "Contrast"),
             new Function(R.drawable.ic_hue, "HUE")
         );

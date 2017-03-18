@@ -45,6 +45,10 @@
 
         <activity android:name=".ui.activity.audio.AudioActivity"/>
 
+        <activity android:name=".ui.activity.color.ColorActivity"/>
+
+        <activity android:name=".ui.activity.crop.CropActivity"/>
+
     </application>
 
 </manifest>
