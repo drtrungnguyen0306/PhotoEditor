@@ -14,6 +14,8 @@ import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.ui.activity.adjust.AdjustActivity;
+import com.fragmgia.photoeditor.ui.activity.color.ColorActivity;
+import com.fragmgia.photoeditor.ui.activity.crop.CropActivity;
 import com.fragmgia.photoeditor.ui.activity.effect.EffectActivity;
 import com.fragmgia.photoeditor.ui.adapter.FunctionAdapter;
 import com.fragmgia.photoeditor.ui.base.BaseActivity;
@@ -92,8 +94,10 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
                 intent = new Intent(FunctionActivity.this, EffectActivity.class);
                 break;
             case ConstantManager.Functions.CROP_FUNCTION:
+                intent = new Intent(FunctionActivity.this, CropActivity.class);
                 break;
             case ConstantManager.Functions.COLOR_FUNCTION:
+                intent = new Intent(FunctionActivity.this, ColorActivity.class);
                 break;
             case ConstantManager.Functions.ADJUST_FUNCTION:
                 intent = new Intent(FunctionActivity.this, AdjustActivity.class);
@@ -102,5 +106,9 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
                 break;
         }
         if (intent != null) startActivity(intent);
+    }
+
+    @Override
+    public void accept() {
     }
 }

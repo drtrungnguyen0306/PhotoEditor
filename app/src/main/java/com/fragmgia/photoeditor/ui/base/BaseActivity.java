@@ -58,6 +58,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void accept() {
+        finish();
     }
 
     public void reset() {
