@@ -6,6 +6,9 @@
     <string name="title_make_video">Making a Video</string>
     <string name="title_combine">Combine</string>
     <string name="title_done">Done</string>
+    <string name="title_red_color">Red</string>
+    <string name="title_green_color">Green</string>
+    <string name="title_blue_color">Blue</string>
     <string name="msg_request_permission">Do you want to open permission?</string>
     <string name="msg_discard_changes">Discard Changes?</string>
     <string name="msg_wait">Please wait&#8230;</string>
