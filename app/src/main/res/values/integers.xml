@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="int_18">18</integer>
-    <integer name="int_72">72</integer>
+    <integer name="int_20">20</integer>
+    <integer name="int_70">70</integer>
     <integer name="int_10">10</integer>
 </resources>

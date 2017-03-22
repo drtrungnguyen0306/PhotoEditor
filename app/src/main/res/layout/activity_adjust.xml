@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:layout_weight="@integer/int_18"
+                android:layout_weight="@integer/int_20"
                 android:gravity="center"
                 android:textColor="@color/color_white"/>
 
@@ -46,7 +46,7 @@
                 android:id="@+id/seek_bar_adjust"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/int_72"/>
+                android:layout_weight="@integer/int_70"/>
 
             <TextView
                 android:id="@+id/text_adjust_value"
