@@ -57,7 +57,7 @@ public class CropView extends View {
         mOutSidePaint.setAntiAlias(true);
         mOutSidePaint.setColor(mOutSideColor);
         mOutSidePaint.setStyle(Paint.Style.FILL);
-        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_point);
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_crop_point);
         mIconOffset = mBitmap.getWidth() / 2;
         mOption = new Option(context);
     }

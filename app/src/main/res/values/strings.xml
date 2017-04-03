@@ -1,14 +1,11 @@
 <resources>
     <string name="title_app_name">Photo Editor</string>
     <string name="title_request_permission">Request Permission</string>
-    <string name="title_contrast">Contrast</string>
-    <string name="title_hue">HUE</string>
     <string name="title_make_video">Making a Video</string>
-    <string name="title_combine">Combine</string>
     <string name="title_done">Done</string>
-    <string name="title_red_color">Red</string>
-    <string name="title_green_color">Green</string>
-    <string name="title_blue_color">Blue</string>
+    <string name="title_color_red">Red</string>
+    <string name="title_color_green">Green</string>
+    <string name="title_color_blue">Blue</string>
     <string name="msg_request_permission">Do you want to open permission?</string>
     <string name="msg_discard_changes">Discard Changes?</string>
     <string name="msg_wait">Please wait&#8230;</string>
@@ -16,7 +13,10 @@
     <string name="msg_error_combining">Error Combining</string>
     <string name="action_edit">Edit</string>
     <string name="action_merge">Merge</string>
+    <string name="action_combine">Combine</string>
     <string name="action_video">Video</string>
     <string name="action_discard">Discard</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_merge_grid">Grid</string>
+    <string name="action_merge_frame">Frame</string>
 </resources>

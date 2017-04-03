@@ -32,7 +32,7 @@
 
             <TextView
                 android:paddingTop="@dimen/dp_5"
-                android:text="@string/title_red_color"
+                android:text="@string/title_color_red"
                 android:textColor="@color/color_white"/>
 
             <SeekBar
@@ -53,7 +53,7 @@
 
             <TextView
                 android:paddingTop="@dimen/dp_5"
-                android:text="@string/title_green_color"
+                android:text="@string/title_color_green"
                 android:textColor="@color/color_white"/>
 
             <SeekBar
@@ -74,7 +74,7 @@
 
             <TextView
                 android:paddingTop="@dimen/dp_5"
-                android:text="@string/title_blue_color"
+                android:text="@string/title_color_blue"
                 android:textColor="@color/color_white"/>
 
             <SeekBar

@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.ui.activity.combine.CombineActivity;
 import com.fragmgia.photoeditor.ui.activity.images.ImagesActivity;
+import com.fragmgia.photoeditor.ui.activity.merge.MergeActivity;
+import com.fragmgia.photoeditor.ui.activity.multiphoto.MultiImageActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +41,10 @@ public class MainActivity extends Activity {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.card_view_edit:
-                intent = new Intent(MainActivity.this, ImagesActivity.class);
+                intent = new Intent(this, ImagesActivity.class);
                 break;
             case R.id.card_view_merge:
+                intent = new Intent(this, MergeActivity.class);
                 break;
             case R.id.card_view_video:
                 intent = new Intent(this, CombineActivity.class);

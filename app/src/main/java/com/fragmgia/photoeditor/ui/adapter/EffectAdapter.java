@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
-import com.fragmgia.photoeditor.data.model.GLToolbox;
 import com.fragmgia.photoeditor.data.model.Square;
 import com.fragmgia.photoeditor.ui.activity.effect.EffectContract;
 import com.fragmgia.photoeditor.util.ConstantManager;
@@ -26,7 +25,6 @@ import java.nio.IntBuffer;
 import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 import butterknife.BindView;
@@ -38,15 +36,19 @@ import butterknife.OnClick;
  */
 public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.EffectViewHolder> {
     private LayoutInflater mLayoutInflater;
-    private Bitmap mBitmap;
     private List<Function> mFunctions;
     private EffectContract.View mView;
     private boolean mIsNone;
+    private Bitmap mPhoto;
+    private int mPhotoWidth;
+    private int mPhotoHeight;
 
     public EffectAdapter(Context context, Bitmap bitmap, List<Function> functions,
                          EffectContract.View view) {
         mLayoutInflater = LayoutInflater.from(context);
-        mBitmap = bitmap;
+        mPhoto = bitmap;
+        mPhotoWidth = mPhoto.getWidth();
+        mPhotoHeight = mPhoto.getHeight();
         mFunctions = functions;
         mView = view;
     }
@@ -76,10 +78,10 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.EffectView
         @BindView(R.id.text_effect)
         TextView mEffectName;
         private int[] mTextures = new int[2];
-        private Square mSquare = new Square();
         private EffectContext mEffectContext;
         private Effect mEffect;
-        private Bitmap mEffectBitmap;
+        private Bitmap mEffectedPhoto;
+        private Square mSquare;
 
         public EffectViewHolder(View itemView) {
             super(itemView);
@@ -96,19 +98,21 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.EffectView
 
         @OnClick(R.id.relative_effect)
         public void onClick(View view) {
-            if (mView != null) mView.selectEffect(mEffectBitmap);
+            if (mView != null) mView.selectEffect(mEffectedPhoto);
         }
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            GLES20.glClearColor(0.2f, 0.2f, 0.2f, 0.5f);
-            mSquare.init();
-            loadTextures();
+            GLES20.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+            mSquare = new Square();
         }
 
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            if (mSquare != null) mSquare.updateViewSize(width, height);
+            mSquare.setViewWidth(width);
+            mSquare.setViewHeight(height);
+            mSquare.onPhotoSizeChanged(mPhotoWidth, mPhotoHeight);
+            generateSquare();
         }
 
         @Override
@@ -121,50 +125,55 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.EffectView
                     mEffectContext = EffectContext.createWithCurrentGlContext();
                 }
                 if (mEffect != null) mEffect.release();
-                EffectFactory factory = mEffectContext.getFactory();
                 switch (mFunctions.get(pos).getName()) {
                     case ConstantManager.Effects.EFFECT_CROSSPROCESS:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_CROSSPROCESS);
+                        effect(EffectFactory.EFFECT_CROSSPROCESS);
                         break;
                     case ConstantManager.Effects.EFFECT_DOCUMENTARY:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_DOCUMENTARY);
+                        effect(EffectFactory.EFFECT_DOCUMENTARY);
                         break;
                     case ConstantManager.Effects.EFFECT_FILLLIGHT:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_FILLLIGHT);
+                        effect(EffectFactory.EFFECT_FILLLIGHT);
                         break;
                     case ConstantManager.Effects.EFFECT_GRAYSCALE:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_GRAYSCALE);
+                        effect(EffectFactory.EFFECT_GRAYSCALE);
                         break;
                     case ConstantManager.Effects.EFFECT_LOMOISH:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_LOMOISH);
+                        effect(EffectFactory.EFFECT_LOMOISH);
                         break;
                     case ConstantManager.Effects.EFFECT_SEPIA:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_SEPIA);
+                        effect(EffectFactory.EFFECT_SEPIA);
                         break;
                     case ConstantManager.Effects.EFFECT_SHARPEN:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_SHARPEN);
+                        effect(EffectFactory.EFFECT_SHARPEN);
                         break;
                     case ConstantManager.Effects.EFFECT_TEMPERATURE:
-                        mEffect = factory.createEffect(EffectFactory.EFFECT_TEMPERATURE);
+                        effect(EffectFactory.EFFECT_TEMPERATURE);
                         break;
                     default:
                         break;
                 }
                 mIsNone = false;
-                mEffect.apply(mTextures[0], mBitmap.getWidth(), mBitmap.getHeight(), mTextures[1]);
             }
-            if (mIsNone) mSquare.renderTexture(mTextures[0]);
-            else mSquare.renderTexture(mTextures[1]);
-            mEffectBitmap = getEffectBitmap();
+            if (mIsNone) mSquare.draw(mTextures[0]);
+            else mSquare.draw(mTextures[1]);
+            mEffectedPhoto = getEffectBitmap();
         }
 
-        private void loadTextures() {
-            mEffectContext = EffectContext.createWithCurrentGlContext();
+        public void generateSquare() {
             GLES20.glGenTextures(2, mTextures, 0);
-            mSquare.updateTextureSize(mBitmap.getWidth(), mBitmap.getHeight());
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures[0]);
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, mBitmap, 0);
-            GLToolbox.initTexParams();
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, mPhoto, 0);
+        }
+
+        public void effect(String effectType) {
+            EffectFactory effectFactory = mEffectContext.getFactory();
+            mEffect = effectFactory.createEffect(effectType);
+            mEffect.apply(mTextures[0], mPhotoWidth, mPhotoHeight, mTextures[1]);
         }
 
         public Bitmap getEffectBitmap() {
