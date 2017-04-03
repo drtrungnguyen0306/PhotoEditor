@@ -73,10 +73,9 @@ public class MultiImageActivity extends BaseActivity implements MultiImageContra
 
     @Override
     public void accept() {
-        super.accept();
         Intent intent = new Intent();
         intent.putExtra(ConstantManager.EXTRA_LIST_IMAGE_INFO, (Serializable) mImageInfos);
         setResult(Activity.RESULT_OK, intent);
-        finish();
+        super.accept();
     }
 }

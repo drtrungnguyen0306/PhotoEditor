@@ -61,6 +61,6 @@ public class AudioActivity extends BaseActivity implements AudioContract.View {
         Intent intent = new Intent();
         intent.putExtra(ConstantManager.EXTRA_AUDIO, audioInfo);
         setResult(Activity.RESULT_OK, intent);
-        finish();
+        super.accept();
     }
 }

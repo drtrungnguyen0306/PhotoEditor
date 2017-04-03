@@ -49,6 +49,8 @@
 
         <activity android:name=".ui.activity.crop.CropActivity"/>
 
+        <activity android:name=".ui.activity.merge.MergeActivity"/>
+
     </application>
 
 </manifest>

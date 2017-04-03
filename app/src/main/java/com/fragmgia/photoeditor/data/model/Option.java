@@ -3,7 +3,7 @@ package com.fragmgia.photoeditor.data.model;
 import android.content.Context;
 
 /**
- * Created by trungnguyens93gmail.com on 3/21/17.
+ * Created by trungnguyens93gmail.com on 4/3/17.
  */
 public class Option {
     public static int sIconClick = 40;

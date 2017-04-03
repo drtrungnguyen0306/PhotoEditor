@@ -62,7 +62,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         void bind(ImageInfo imageInfo) {
             if (imageInfo == null) return;
             if (imageInfo.getName().equals(ConstantManager.CAPTURE_IMAGE))
-                mAvatar.setImageResource(R.drawable.ic_photo);
+                mAvatar.setImageResource(R.drawable.ic_edit_photo);
             else
                 mAvatar.setImageURI(Uri.parse(imageInfo.getPath()));
         }

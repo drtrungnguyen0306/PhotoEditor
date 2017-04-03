@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_red"
                 android:padding="@dimen/dp_10"
-                android:src="@drawable/ic_photo_plus"/>
+                android:src="@drawable/ic_combine_photo"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_view_combining_images"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_deep_purple"
                 android:padding="@dimen/dp_10"
-                android:src="@drawable/ic_audio"/>
+                android:src="@drawable/ic_combine_audio"/>
 
             <TextView
                 android:id="@+id/text_combining_audio_name"
@@ -81,6 +81,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_50"
-        android:text="@string/title_combine"/>
+        android:text="@string/action_combine"/>
 
 </LinearLayout>

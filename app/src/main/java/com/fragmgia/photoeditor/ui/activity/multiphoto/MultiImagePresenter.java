@@ -1,5 +1,7 @@
 package com.fragmgia.photoeditor.ui.activity.multiphoto;
 
+import android.app.Activity;
+
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.data.source.local.DataSourceInSDCard;
 
@@ -23,7 +25,7 @@ public class MultiImagePresenter implements MultiImageContract.Presenter {
     @Override
     public void loadImages() {
         List<ImageInfo> imageInfos =
-            DataSourceInSDCard.getImages((MultiImageActivity) mView);
+            DataSourceInSDCard.getImages((Activity) mView);
         mView.showImages(imageInfos);
     }
 }

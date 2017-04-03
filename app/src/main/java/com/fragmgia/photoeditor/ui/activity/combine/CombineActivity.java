@@ -182,8 +182,8 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
             long millis = System.currentTimeMillis();
             mVideoPath = file + "/test" + millis + ".mp4";
             try {
-                FrameGrabber grabberImage = new FFmpegFrameGrabber(mImageInfos.get(0).getPath());
-                FrameGrabber grabberAudio = new FFmpegFrameGrabber(mAudioInfo.getPath());
+                FFmpegFrameGrabber grabberImage = new FFmpegFrameGrabber(mImageInfos.get(0).getPath());
+                FFmpegFrameGrabber grabberAudio = new FFmpegFrameGrabber(mAudioInfo.getPath());
                 grabberImage.start();
                 grabberAudio.start();
                 FFmpegFrameRecorder recorder =
