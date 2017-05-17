@@ -36,6 +36,11 @@ public class MultiImageActivity extends BaseActivity implements MultiImageContra
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
         mPresenter = new MultiImagePresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
     }
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.design.widget.CoordinatorLayout-->
+    <!--android:id="@+id/rootView"-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<RelativeLayout-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/relative_root_imageview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_above="@+id/recycler_view_partial"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="@dimen/dp_20"-->
+            <!--android:layout_marginTop="@dimen/dp_56"-->
+            <!--android:background="@android:color/white"-->
+            <!--tools:ignore="UnknownIdInLayout"/>-->
+
+        <!--<include-->
+            <!--layout="@layout/partial_recycle_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"/>-->
+    <!--</RelativeLayout>-->
+
+<!--</android.support.design.widget.CoordinatorLayout>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:gravity="center"
+        android:id="@+id/relative_root_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_56"
+        android:background="@android:color/white"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_view_type_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

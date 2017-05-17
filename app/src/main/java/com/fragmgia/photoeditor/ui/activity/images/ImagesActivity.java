@@ -40,6 +40,11 @@ public class ImagesActivity extends AppCompatActivity implements ImagesContract.
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
         mPresenter = new ImagesPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
     }
 
@@ -135,6 +140,10 @@ public class ImagesActivity extends AppCompatActivity implements ImagesContract.
         if (requestCode == ConstantManager.REQUEST_TAKE_IMAGE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get(ConstantManager.EXTRA_BITMAP_CAPTURE);
+            Intent intent = new Intent(ImagesActivity.this, FunctionActivity.class);
+            intent.putExtra(ConstantManager.EXTRA_TYPE_OF_IMAGE, ConstantManager.EXTRA_BITMAP);
+            intent.putExtra(ConstantManager.EXTRA_BITMAP, bitmap);
+            startActivity(intent);
         }
     }
 }

@@ -22,6 +22,10 @@ public class AudioPresenter implements AudioContract.Presenter {
         mView.start();
     }
 
+    /*
+        - Function : get list of audios form SD-Card
+        - Parameters :
+     */
     @Override
     public void loadAudios() {
         List<AudioInfo> audioInfos = DataSourceInSDCard.getAudios((AudioActivity) mView);

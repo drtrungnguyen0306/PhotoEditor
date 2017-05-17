@@ -1,5 +1,8 @@
 package com.fragmgia.photoeditor.ui.activity.color;
 
+import android.graphics.Bitmap;
+
+import com.fragmgia.photoeditor.ui.activity.function.FunctionActivity;
 import com.fragmgia.photoeditor.ui.base.BasePresenter;
 
 /**
@@ -15,6 +18,16 @@ public class ColorPresenter implements ColorContract.Presenter {
     @Override
     public void start() {
         mView.start();
-        mView.showImage();
+    }
+
+    @Override
+    public void loadImage() {
+        Bitmap bitmap = FunctionActivity.sMainBitmap;
+        mView.showImage(bitmap);
+    }
+
+    @Override
+    public void save(Bitmap bitmap) {
+        FunctionActivity.sMainBitmap = bitmap;
     }
 }

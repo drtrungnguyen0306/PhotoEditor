@@ -13,12 +13,14 @@ import java.util.List;
  */
 public interface EffectContract {
     interface View extends BaseView {
-        void getImage();
-        void showImage();
+        void showImage(Bitmap bitmap);
         void showEffects(List<Function> functions);
         void selectEffect(Bitmap bitmap);
     }
 
     interface Presenter extends BasePresenter {
+        void loadImage();
+        void loadEffects();
+        void save(Bitmap bitmap);
     }
 }

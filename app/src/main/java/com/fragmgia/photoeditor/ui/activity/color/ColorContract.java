@@ -1,5 +1,7 @@
 package com.fragmgia.photoeditor.ui.activity.color;
 
+import android.graphics.Bitmap;
+
 import com.fragmgia.photoeditor.ui.base.BasePresenter;
 import com.fragmgia.photoeditor.ui.base.BaseView;
 
@@ -8,10 +10,11 @@ import com.fragmgia.photoeditor.ui.base.BaseView;
  */
 public interface ColorContract {
     interface View extends BaseView {
-        void showImage();
+        void showImage(Bitmap bitmap);
     }
 
     interface Presenter extends BasePresenter {
-
+        void loadImage();
+        void save(Bitmap bitmap);
     }
 }

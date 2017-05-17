@@ -3,6 +3,7 @@ package com.fragmgia.photoeditor.ui.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.ui.activity.images.ImagesContract;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+    private static final String TAG = "ImageAdapter";
     private LayoutInflater mLayoutInflater;
     private List<ImageInfo> mImageInfos;
     private ImagesContract.View mListener;

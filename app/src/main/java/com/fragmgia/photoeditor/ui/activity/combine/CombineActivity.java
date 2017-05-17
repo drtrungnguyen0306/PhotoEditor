@@ -3,13 +3,15 @@ package com.fragmgia.photoeditor.ui.activity.combine;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.location.Location;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,19 +24,16 @@ import com.fragmgia.photoeditor.data.model.AudioInfo;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.ui.activity.audio.AudioActivity;
 import com.fragmgia.photoeditor.ui.activity.multiphoto.MultiImageActivity;
+import com.fragmgia.photoeditor.ui.activity.video.VideoActivity;
 import com.fragmgia.photoeditor.ui.adapter.CombiningImageAdapter;
 import com.fragmgia.photoeditor.util.ConstantManager;
-
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.FFmpegFrameRecorder;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.FrameGrabber;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +43,7 @@ import butterknife.OnClick;
  * Created by trungnguyens93gmail.com on 3/10/17.
  */
 public class CombineActivity extends AppCompatActivity implements CombineContact.View {
+    private static final String TAG = "CombineActivity";
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
     @BindView(R.id.image_list_combine)
@@ -57,6 +57,7 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
     @BindView(R.id.button_combine_video)
     Button mCombineButton;
     private CombineContact.Presenter mPresenter;
+    private ProgressDialog mProgressDialog;
     private CombiningImageAdapter mCombiningImageAdapter;
     private List<ImageInfo> mImageInfos;
     private AudioInfo mAudioInfo;
@@ -67,6 +68,11 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
         setContentView(R.layout.activity_combine);
         ButterKnife.bind(this);
         mPresenter = new CombinePresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
     }
 
@@ -90,11 +96,24 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
                     break;
                 case AUDIO_REQUEST_CODE:
                     mAudioInfo = (AudioInfo) data.getSerializableExtra(ConstantManager.EXTRA_AUDIO);
+//                    String result = showDuration(mAudioInfo.getPath());
+//                    Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    public String showDuration(String audioPath) {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, Uri.parse(audioPath));
+        int duration = mediaPlayer.getDuration();
+        Log.i(TAG, String.valueOf(duration));
+        mediaPlayer.release();
+//        return String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes(duration), TimeUnit
+//            .MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit
+//            .MILLISECONDS.toMinutes(duration)), Locale.UK);
+        return String.valueOf(TimeUnit.MILLISECONDS.toSeconds(duration) - 6);
     }
 
     @Override
@@ -116,6 +135,23 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
         initView();
     }
 
+    @Override
+    public void showDialog() {
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void navigateToActivity(String string) {
+        Intent intent = new Intent(CombineActivity.this, VideoActivity.class);
+        intent.putExtra("path", string);
+        startActivity(intent);
+    }
+
     @OnClick({R.id.image_list_combine, R.id.image_audio_combine, R.id.button_combine_video})
     public void onClick(View view) {
         Intent intent = null;
@@ -130,7 +166,7 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
                 requestCode = AUDIO_REQUEST_CODE;
                 break;
             case R.id.button_combine_video:
-                new AsyncCombine().execute();
+                mPresenter.convertVideo(mImageInfos, mAudioInfo);
                 break;
             default:
                 break;
@@ -144,6 +180,9 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
         mImagesRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
             .HORIZONTAL, false));
         mImagesRecycleView.setAdapter(mCombiningImageAdapter);
+        mProgressDialog = new ProgressDialog(CombineActivity.this);
+        mProgressDialog.setMessage(getString(R.string.msg_creating));
+        mProgressDialog.setCancelable(false);
     }
 
     public ArrayList<ImageInfo> convertToArrayImageInfo(Serializable serializable) {
@@ -163,59 +202,4 @@ public class CombineActivity extends AppCompatActivity implements CombineContact
         return imageInfos;
     }
 
-    class AsyncCombine extends AsyncTask<Void, Void, Void> {
-        private ProgressDialog mProgressDialog;
-        private String mVideoPath;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(CombineActivity.this);
-            mProgressDialog.setMessage(getString(R.string.msg_wait));
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            File file = Environment.getExternalStorageDirectory();
-            long millis = System.currentTimeMillis();
-            mVideoPath = file + "/test" + millis + ".mp4";
-            try {
-                FFmpegFrameGrabber grabberImage = new FFmpegFrameGrabber(mImageInfos.get(0).getPath());
-                FFmpegFrameGrabber grabberAudio = new FFmpegFrameGrabber(mAudioInfo.getPath());
-                grabberImage.start();
-                grabberAudio.start();
-                FFmpegFrameRecorder recorder =
-                    new FFmpegFrameRecorder(mVideoPath,
-                        grabberImage.getImageWidth(),
-                        grabberImage.getImageHeight(), 2);
-                recorder.setVideoCodec(avcodec.AV_CODEC_ID_MPEG4);
-                recorder.setFormat("mp4");
-                recorder.setSampleRate(grabberAudio.getSampleRate());
-                recorder.setVideoBitrate(30);
-                Frame frame1, frame2 = null;
-                recorder.start();
-                while ((frame1 = grabberImage.grabFrame()) != null ||
-                    (frame2 = grabberAudio.grabFrame()) != null) {
-                    recorder.record(frame1);
-                    recorder.record(frame2);
-                }
-                recorder.stop();
-                grabberImage.stop();
-                grabberAudio.stop();
-            } catch (Exception ex) {
-                Toast.makeText(CombineActivity.this, R.string.msg_error_combining,
-                    Toast.LENGTH_SHORT).show();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            mProgressDialog.dismiss();
-            Toast.makeText(CombineActivity.this, R.string.msg_success, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

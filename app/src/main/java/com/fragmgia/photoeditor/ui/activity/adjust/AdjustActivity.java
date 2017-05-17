@@ -1,7 +1,6 @@
 package com.fragmgia.photoeditor.ui.activity.adjust;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
-import com.fragmgia.photoeditor.ui.activity.function.FunctionActivity;
-import com.fragmgia.photoeditor.ui.activity.function.FunctionContract;
-import com.fragmgia.photoeditor.ui.adapter.FunctionAdapter;
+import com.fragmgia.photoeditor.ui.adapter.AdjustAdapter;
 import com.fragmgia.photoeditor.ui.base.BaseActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
@@ -24,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdjustActivity extends BaseActivity implements FunctionContract.View,
+public class AdjustActivity extends BaseActivity implements AdjustContract.View,
     SeekBar.OnSeekBarChangeListener {
     private static int mCurrentBrightnessValue = 0;
     private static int mCurrentContrastValue = 0;
@@ -48,7 +45,19 @@ public class AdjustActivity extends BaseActivity implements FunctionContract.Vie
         setContentView(R.layout.activity_adjust);
         ButterKnife.bind(this);
         mPresenter = new AdjustPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadImage();
+        mPresenter.loadFunctions();
     }
 
     @Override
@@ -61,20 +70,16 @@ public class AdjustActivity extends BaseActivity implements FunctionContract.Vie
     }
 
     @Override
-    public void getImage() {
-    }
-
-    @Override
-    public void showImage() {
-        mBitmap = FunctionActivity.sMainBitmap;
-        mAdjustImageView.setImageBitmap(mBitmap);
+    public void showImage(Bitmap bitmap) {
+        mBitmap = bitmap;
+        mAdjustImageView.setImageBitmap(bitmap);
     }
 
     @Override
     public void showFunctions(List<Function> functions) {
         mAdjustRecycleView.setLayoutManager(
             new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
-        mAdjustRecycleView.setAdapter(new FunctionAdapter(this, functions, this));
+        mAdjustRecycleView.setAdapter(new AdjustAdapter(this, functions, this));
     }
 
     @Override
@@ -98,99 +103,6 @@ public class AdjustActivity extends BaseActivity implements FunctionContract.Vie
             default:
                 break;
         }
-    }
-
-    private void changeContrast(double value)
-    {
-        // image size
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        // create output bitmap
-        Bitmap bmOut = Bitmap.createBitmap(width, height, mBitmap.getConfig());
-        // get contrast value
-        double contrast = Math.pow((100 + value) / 100, 2);
-        // color information
-        int A, R, G, B;
-        int pixel;
-        // scan through all pixels
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = mBitmap.getPixel(x, y);
-                A = Color.alpha(pixel);
-                // apply filter contrast for every channel R, G, B
-                R = Color.red(pixel);
-                R = (int)(((((R / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(R < 0) { R = 0; }
-                else if(R > 255) { R = 255; }
-
-                G = Color.green(pixel);
-                G = (int)(((((G / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(G < 0) { G = 0; }
-                else if(G > 255) { G = 255; }
-
-                B = Color.blue(pixel);
-                B = (int)(((((B / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(B < 0) { B = 0; }
-                else if(B > 255) { B = 255; }
-
-                // set new pixel color to output bitmap
-                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
-            }
-        }
-        // return final image
-        mBitmap = bmOut;
-        mAdjustImageView.setImageBitmap(bmOut);
-    }
-
-    public void changeHUE(int value) {
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        Bitmap desBitmap = Bitmap.createBitmap(width, height, mBitmap.getConfig());
-        int colorPixel;
-        float[] hsv = new float[3];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                colorPixel = mBitmap.getPixel(x, y);
-                Color.colorToHSV(colorPixel, hsv);
-                hsv[0] += value;
-                desBitmap.setPixel(x, y, Color.HSVToColor(Color.alpha(colorPixel), hsv));
-            }
-        }
-        mBitmap = desBitmap;
-        mAdjustImageView.setImageBitmap(desBitmap);
-    }
-
-    public void changeBrightness(int value) {
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        Bitmap bmOut = Bitmap.createBitmap(width, height, mBitmap.getConfig());
-        int a, r, g, b;
-        int pixel;
-        for (int x=0; x<width; x++) {
-            for (int y=0; y<height; y++) {
-                pixel = mBitmap.getPixel(x, y);
-                a = Color.alpha(pixel);
-                // red
-                r = Color.red(pixel);
-                r += value;
-                if (r > 255) r = 255;
-                else if (r < 0) r = 0;
-                // green
-                g = Color.green(pixel);
-                g += value;
-                if (g > 255) g = 255;
-                else if (g < 0) g = 0;
-                // blue
-                b = Color.blue(pixel);
-                b += value;
-                if (b > 255) b = 255;
-                else if (b < 0) b = 0;
-                bmOut.setPixel(x, y, Color.argb(a, r, g, b));
-            }
-        }
-        mBitmap = bmOut;
-        mAdjustImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -224,17 +136,18 @@ public class AdjustActivity extends BaseActivity implements FunctionContract.Vie
         String adjustName = mAdjustName.getText().toString();
         switch (adjustName) {
             case ConstantManager.Adjusts.BRIGHTNESS_FUNCTION:
-                changeBrightness(mCurrentBrightnessValue);
+                mBitmap = mPresenter.changeBrightness(mBitmap, mCurrentBrightnessValue);
                 break;
             case ConstantManager.Adjusts.CONTRAST_FUNCTION:
-                changeContrast(mCurrentContrastValue);
+                mBitmap = mPresenter.changeContrast(mBitmap, mCurrentContrastValue);
                 break;
             case ConstantManager.Adjusts.HUE_FUNCTION:
-                changeHUE(mCurrentHueValue);
+                mBitmap = mPresenter.changeHUE(mBitmap, mCurrentHueValue);
                 break;
             default:
                 break;
         }
+        mAdjustImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -244,5 +157,11 @@ public class AdjustActivity extends BaseActivity implements FunctionContract.Vie
         mCurrentBrightnessValue = 0;
         mCurrentContrastValue = 0;
         mCurrentHueValue = 0;
+    }
+
+    @Override
+    public void accept() {
+        mPresenter.save(mBitmap);
+        super.accept();
     }
 }

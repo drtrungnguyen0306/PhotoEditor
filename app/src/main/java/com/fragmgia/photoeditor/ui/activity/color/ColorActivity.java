@@ -44,7 +44,18 @@ public class ColorActivity extends BaseActivity implements ColorContract.View,
         setContentView(R.layout.activity_color);
         ButterKnife.bind(this);
         mPresenter = new ColorPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadImage();
     }
 
     @Override
@@ -71,11 +82,17 @@ public class ColorActivity extends BaseActivity implements ColorContract.View,
         mValueOfBlueColorTextView.setText(String.valueOf(mBlueColorSeekBar.getProgress()));
     }
 
+    /*
+        - Function : show image to draw colors on that
+        - Parameters :
+            + Bitmap : the bitmap is from FunctionActivity
+     */
     @Override
-    public void showImage() {
-        mColorImageView.setImageBitmap(FunctionActivity.sMainBitmap);
+    public void showImage(Bitmap bitmap) {
+        mColorImageView.setImageBitmap(bitmap);
     }
 
+    // change the value of the Color SeekBars
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
@@ -97,6 +114,7 @@ public class ColorActivity extends BaseActivity implements ColorContract.View,
     public void onStartTrackingTouch(SeekBar seekBar) {
     }
 
+    // Change the color paint to draw on the image
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         mColorImageView.setColorPaint(mRedColorSeekBar.getProgress(),
@@ -104,10 +122,12 @@ public class ColorActivity extends BaseActivity implements ColorContract.View,
             mBlueColorSeekBar.getProgress());
     }
 
+    // Action when you have clicked the "DONE" button
     @Override
     public void accept() {
-        FunctionActivity.sMainBitmap = Bitmap.createBitmap(mColorImageView.getDrawingCache());
+        Bitmap bitmap = Bitmap.createBitmap(mColorImageView.getDrawingCache());
         mColorImageView.setDrawingCacheEnabled(false);
+        mPresenter.save(bitmap);
         super.accept();
     }
 }

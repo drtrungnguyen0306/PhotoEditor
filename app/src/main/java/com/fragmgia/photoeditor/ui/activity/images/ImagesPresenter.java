@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 
 import com.fragmgia.photoeditor.data.model.ImageInfo;
 import com.fragmgia.photoeditor.data.source.local.DataSourceInSDCard;
+import com.fragmgia.photoeditor.ui.activity.selectedimage.SeletedImageActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
 
 import java.util.ArrayList;

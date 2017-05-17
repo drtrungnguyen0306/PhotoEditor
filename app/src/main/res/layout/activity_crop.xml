@@ -4,16 +4,14 @@
                 android:layout_height="match_parent"
                 android:background="@color/color_black_white">
 
-    <ImageView
-        android:id="@+id/image_crop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
-
     <com.fragmgia.photoeditor.ui.widget.CropView
-        android:id="@+id/crop_view"
+        android:id="@+id/crop_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"/>
+
+    <com.fragmgia.photoeditor.ui.widget.CropBorderView
+        android:id="@+id/crop_border_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
