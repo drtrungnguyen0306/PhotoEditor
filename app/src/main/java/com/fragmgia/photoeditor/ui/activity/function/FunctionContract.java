@@ -1,5 +1,8 @@
 package com.fragmgia.photoeditor.ui.activity.function;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.ui.base.BasePresenter;
 import com.fragmgia.photoeditor.ui.base.BaseView;
@@ -11,7 +14,6 @@ import java.util.List;
  */
 public interface FunctionContract {
     interface View extends BaseView {
-        void getImage();
         void showImage();
         void showFunctions(List<Function> functions);
         void selectFunction(Function function);
@@ -19,5 +21,8 @@ public interface FunctionContract {
 
     interface Presenter extends BasePresenter {
         void loadImage();
+        void loadFunction();
+        Intent getIntent(Function function);
+        String save(Bitmap bitmap);
     }
 }

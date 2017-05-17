@@ -5,6 +5,7 @@
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,7 @@
         android:label="@string/title_app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -34,23 +36,21 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity.function.FunctionActivity"/>
-
         <activity android:name=".ui.activity.adjust.AdjustActivity"/>
-
         <activity android:name=".ui.activity.effect.EffectActivity"/>
-
         <activity android:name=".ui.activity.combine.CombineActivity"/>
-
         <activity android:name=".ui.activity.multiphoto.MultiImageActivity"/>
-
         <activity android:name=".ui.activity.audio.AudioActivity"/>
-
         <activity android:name=".ui.activity.color.ColorActivity"/>
-
         <activity android:name=".ui.activity.crop.CropActivity"/>
-
         <activity android:name=".ui.activity.merge.MergeActivity"/>
-
+        <activity android:name=".ui.activity.sticker.StickerActivity"/>
+        <activity android:name=".ui.activity.merge.TempActivity"/>
+        <activity android:name=".ui.activity.subimage.SubImagesActivity"/>
+        <activity android:name=".ui.activity.frame.FramesActivity"/>
+        <activity android:name=".ui.activity.video.VideoActivity"/>
+        <activity android:name=".ui.activity.shareimage.ShareImageActivity"/>
+        <activity android:name=".ui.activity.selectedimage.SeletedImageActivity"/>
     </application>
 
 </manifest>

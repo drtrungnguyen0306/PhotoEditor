@@ -35,7 +35,19 @@ public class EffectActivity extends BaseActivity implements EffectContract.View 
         setContentView(R.layout.activity_effect);
         ButterKnife.bind(this);
         mPresenter = new EffectPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadImage();
+        mPresenter.loadEffects();
     }
 
     @Override
@@ -43,13 +55,9 @@ public class EffectActivity extends BaseActivity implements EffectContract.View 
     }
 
     @Override
-    public void getImage() {
-        mBitmap = FunctionActivity.sMainBitmap;
-    }
-
-    @Override
-    public void showImage() {
-        mEffectImageView.setImageBitmap(mBitmap);
+    public void showImage(Bitmap bitmap) {
+        mBitmap = bitmap;
+        mEffectImageView.setImageBitmap(bitmap);
     }
 
     @Override
@@ -63,5 +71,11 @@ public class EffectActivity extends BaseActivity implements EffectContract.View 
     public void selectEffect(Bitmap bitmap) {
         mBitmap = bitmap;
         mEffectImageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void accept() {
+        mPresenter.save(mBitmap);
+        super.accept();
     }
 }

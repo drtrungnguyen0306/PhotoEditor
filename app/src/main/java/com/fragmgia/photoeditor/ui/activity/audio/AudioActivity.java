@@ -33,6 +33,11 @@ public class AudioActivity extends BaseActivity implements AudioContract.View {
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
         mPresenter = new AudioPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
     }
 
@@ -44,18 +49,29 @@ public class AudioActivity extends BaseActivity implements AudioContract.View {
 
     @Override
     public void start() {
+        // init attributes that will show audios
         mAudioAdapter = new AudioAdapter(this, this);
         mAudioRecyclerView.setHasFixedSize(true);
         mAudioRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAudioRecyclerView.setAdapter(mAudioAdapter);
     }
 
+    /*
+        - Function : show list of audios
+        - Parameters :
+            + List<AudiosInfo> : list of audios from SD-Card
+     */
     @Override
     public void showAudios(List<AudioInfo> audioInfos) {
         mAudioAdapter.setAudioInfos(audioInfos);
         mAudioAdapter.notifyDataSetChanged();
     }
 
+    /*
+        - Function : action when you have selected a audio on the list
+        - Parameters :
+            + AudioInfo : the audio that you have selected
+     */
     @Override
     public void selectAudio(AudioInfo audioInfo) {
         Intent intent = new Intent();

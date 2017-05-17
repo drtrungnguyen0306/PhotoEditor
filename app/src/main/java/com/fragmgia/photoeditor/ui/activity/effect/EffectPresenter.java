@@ -1,7 +1,10 @@
 package com.fragmgia.photoeditor.ui.activity.effect;
 
+import android.graphics.Bitmap;
+
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.data.source.local.FunctionsDataSource;
+import com.fragmgia.photoeditor.ui.activity.function.FunctionActivity;
 import com.fragmgia.photoeditor.ui.activity.function.FunctionContract;
 
 import java.util.List;
@@ -18,10 +21,23 @@ public class EffectPresenter implements EffectContract.Presenter {
 
     @Override
     public void start() {
-        mView.getImage();
-        mView.showImage();
+        mView.start();
+    }
+
+    @Override
+    public void loadImage() {
+        Bitmap bitmap = FunctionActivity.sMainBitmap;
+        mView.showImage(bitmap);
+    }
+
+    @Override
+    public void loadEffects() {
         List<Function> functions = FunctionsDataSource.getEffectsFunction();
         mView.showEffects(functions);
-        mView.start();
+    }
+
+    @Override
+    public void save(Bitmap bitmap) {
+        FunctionActivity.sMainBitmap = bitmap;
     }
 }

@@ -9,14 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.fragmgia.photoeditor.R;
 import com.fragmgia.photoeditor.data.model.Function;
 import com.fragmgia.photoeditor.data.model.ImageInfo;
-import com.fragmgia.photoeditor.ui.activity.adjust.AdjustActivity;
 import com.fragmgia.photoeditor.ui.activity.color.ColorActivity;
 import com.fragmgia.photoeditor.ui.activity.crop.CropActivity;
 import com.fragmgia.photoeditor.ui.activity.effect.EffectActivity;
+import com.fragmgia.photoeditor.ui.activity.shareimage.ShareImageActivity;
+import com.fragmgia.photoeditor.ui.activity.sticker.StickerActivity;
 import com.fragmgia.photoeditor.ui.adapter.FunctionAdapter;
 import com.fragmgia.photoeditor.ui.base.BaseActivity;
 import com.fragmgia.photoeditor.util.ConstantManager;
@@ -42,7 +44,13 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_functions);
         ButterKnife.bind(this);
+        initImage();
         mPresenter = new FunctionPresenter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.start();
     }
 
@@ -50,28 +58,11 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
     protected void onResume() {
         super.onResume();
         mPresenter.loadImage();
+        mPresenter.loadFunction();
     }
 
     @Override
     public void start() {
-    }
-
-    @Override
-    public void getImage() {
-        if (getIntent() == null) return;
-        String typeOfImage = getIntent().getStringExtra(ConstantManager.EXTRA_TYPE_OF_IMAGE);
-        switch (typeOfImage) {
-            case ConstantManager.EXTRA_IMAGE_INFO:
-                ImageInfo imageInfo = (ImageInfo) getIntent()
-                    .getSerializableExtra(ConstantManager.EXTRA_IMAGE_INFO);
-                sMainBitmap = BitmapFactory.decodeFile(imageInfo.getPath());
-                break;
-            case ConstantManager.EXTRA_BITMAP:
-                sMainBitmap = getIntent().getParcelableExtra(ConstantManager.EXTRA_BITMAP);
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -88,27 +79,34 @@ public class FunctionActivity extends BaseActivity implements FunctionContract.V
 
     @Override
     public void selectFunction(Function function) {
-        Intent intent = null;
-        switch (function.getName()) {
-            case ConstantManager.Functions.EFFECT_FUNTION:
-                intent = new Intent(FunctionActivity.this, EffectActivity.class);
-                break;
-            case ConstantManager.Functions.CROP_FUNCTION:
-                intent = new Intent(FunctionActivity.this, CropActivity.class);
-                break;
-            case ConstantManager.Functions.COLOR_FUNCTION:
-                intent = new Intent(FunctionActivity.this, ColorActivity.class);
-                break;
-            case ConstantManager.Functions.ADJUST_FUNCTION:
-                intent = new Intent(FunctionActivity.this, AdjustActivity.class);
-                break;
-            default:
-                break;
-        }
+        Intent intent = mPresenter.getIntent(function);
         if (intent != null) startActivity(intent);
     }
 
     @Override
     public void accept() {
+        String path = mPresenter.save(sMainBitmap);
+        Intent intent = new Intent(FunctionActivity.this, ShareImageActivity.class);
+        intent.putExtra("path", path);
+        startActivity(intent);
+    }
+
+    public void initImage() {
+        if (getIntent() == null) return;
+        String typeOfImage = getIntent().getStringExtra(ConstantManager.EXTRA_TYPE_OF_IMAGE);
+        if (typeOfImage != null) {
+            switch (typeOfImage) {
+                case ConstantManager.EXTRA_IMAGE_INFO:
+                    ImageInfo imageInfo = (ImageInfo) getIntent()
+                        .getSerializableExtra(ConstantManager.EXTRA_IMAGE_INFO);
+                    sMainBitmap = BitmapFactory.decodeFile(imageInfo.getPath());
+                    break;
+                case ConstantManager.EXTRA_BITMAP:
+                    sMainBitmap = getIntent().getParcelableExtra(ConstantManager.EXTRA_BITMAP);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

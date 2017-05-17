@@ -2,7 +2,9 @@ package com.fragmgia.photoeditor.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.ComposePathEffect;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -13,6 +15,9 @@ import com.fragmgia.photoeditor.ui.activity.combine.CombineActivity;
 import com.fragmgia.photoeditor.ui.activity.images.ImagesActivity;
 import com.fragmgia.photoeditor.ui.activity.merge.MergeActivity;
 import com.fragmgia.photoeditor.ui.activity.multiphoto.MultiImageActivity;
+import com.fragmgia.photoeditor.util.ConstantManager;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +41,13 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.card_view_edit, R.id.card_view_merge, R.id.card_view_video})
+    @Override
+    protected void onStart() {
+        super.onStart();
+        createFolder(Environment.getExternalStorageDirectory().getPath(), ConstantManager.MAIN_FOLDER);
+    }
+
+    @OnClick({R.id.card_view_edit, R.id.card_view_video, R.id.card_view_merge})
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
@@ -53,5 +64,21 @@ public class MainActivity extends Activity {
                 break;
         }
         if (intent != null) startActivity(intent);
+    }
+
+    public void createFolder(String path, String nameFile) {
+        File folder = new File(path + File.separator + nameFile);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        switch (nameFile) {
+            case ConstantManager.MAIN_FOLDER:
+                createFolder(folder.getPath(), ConstantManager.IMAGES_FOLDER);
+                createFolder(folder.getPath(), ConstantManager.VIDEOS_FOLDER);
+                break;
+            case ConstantManager.IMAGES_FOLDER:
+            case ConstantManager.VIDEOS_FOLDER:
+                break;
+        }
     }
 }
